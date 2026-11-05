@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>门托·站桩养成</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2314110E'/%3E%3Ccircle cx='32' cy='32' r='18' fill='none' stroke='%23E0863B' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='3' fill='%23E0863B'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#14110E;
+  --bg2:#1C1814;
+  --card:#221D18;
+  --line:#332B22;
+  --ink:#EFE9E0;
+  --ink-dim:#A79C8C;
+  --dim:#7C7264;
+  --accent:#E0863B;
+  --accent-soft:rgba(224,134,59,.14);
+  --good:#9DB57E;
+  --warn:#D9A441;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue","Noto Sans SC",sans-serif;
+  background:var(--bg);color:var(--ink);
+  min-height:100vh;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.serif{font-family:"Songti SC","Noto Serif SC","STSong","SimSun",serif}
+.app{max-width:560px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;padding-bottom:76px}
+.view{display:none;flex-direction:column;flex:1;padding:22px 20px 20px;animation:fade .28s ease}
+.view.active{display:flex}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:8px 20px 4px}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:34px;height:34px;border-radius:10px;background:var(--accent-soft);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:17px;font-weight:700}
+.brand-name{font-size:16px;font-weight:700;letter-spacing:.5px}
+.brand-sub{font-size:11px;color:var(--dim);letter-spacing:2px}
+.day-badge{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:12.5px;color:var(--ink-dim);display:flex;align-items:center;gap:6px}
+.day-badge b{color:var(--accent);font-size:14px}
+.hero{margin-top:18px;text-align:center}
+.mantra-label{font-size:11.5px;letter-spacing:4px;color:var(--dim);margin-bottom:14px}
+.mantra{font-size:27px;line-height:1.5;font-weight:600;letter-spacing:1px}
+.mantra-en{font-size:11px;color:var(--dim);letter-spacing:3px;margin-top:8px}
+.big-circle{width:230px;height:230px;margin:34px auto 26px;border-radius:50%;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;user-select:none}
+.big-circle .ring{position:absolute;inset:0;border-radius:50%;background:conic-gradient(var(--accent) calc(var(--p,0)*1%), rgba(224,134,59,.12) 0)}
+.big-circle .ring-in{position:absolute;inset:8px;border-radius:50%;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.big-circle .ring-in-in{position:absolute;inset:12px;border-radius:50%;background:var(--bg2);border:1px solid var(--line)}
+.big-circle .c-main{position:relative;z-index:2;font-size:19px;font-weight:700}
+.big-circle .c-sub{position:relative;z-index:2;font-size:12px;color:var(--ink-dim);margin-top:5px}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 10px;text-align:center}
+.stat b{display:block;font-size:24px;font-weight:700;color:var(--ink)}
+.stat span{font-size:12px;color:var(--dim)}
+.stat .u{font-size:12px;color:var(--accent);margin-left:2px}
+.today-panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin-top:20px}
+.today-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.today-head h3{font-size:14px;font-weight:700;letter-spacing:1px}
+.today-head .tag{font-size:11px;color:var(--good);border:1px solid rgba(157,181,126,.4);padding:2px 10px;border-radius:999px}
+.today-head .tag.no{color:var(--dim);border-color:var(--line)}
+.sess{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.sess:first-of-type{border-top:none}
+.sess .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.sess .dot.done{background:var(--good)}
+.sess .dot.now{background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.sess .dot.todo{background:var(--line)}
+.sess .txt{flex:1;font-size:14px}
+.sess .txt small{display:block;font-size:11.5px;color:var(--dim)}
+.sess .time{font-size:13px;color:var(--ink-dim);font-variant-numeric:tabular-nums}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px;border-radius:14px;border:none;font-size:16px;font-weight:700;cursor:pointer;transition:transform .06s,opacity .2s}
+.btn:active{transform:scale(.985)}
+.btn.primary{background:var(--accent);color:#1A1209}
+.btn.ghost{background:var(--card);border:1px solid var(--line);color:var(--ink)}
+.btn.soft{background:var(--accent-soft);color:var(--accent);border:1px solid rgba(224,134,59,.3)}
+.btn.sm{padding:12px 16px;font-size:14px;width:auto}
+.btn:disabled{opacity:.4;pointer-events:none}
+.field{margin-bottom:20px}
+.field label{display:block;font-size:13px;color:var(--ink-dim);margin-bottom:10px;letter-spacing:1px}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{padding:11px 18px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink-dim);font-size:14px;cursor:pointer;transition:all .15s;min-height:44px;display:flex;align-items:center}
+.chip.active{background:var(--accent);border-color:var(--accent);color:#1A1209;font-weight:700}
+.chip.sel{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+textarea{width:100%;min-height:120px;background:var(--card);border:1px solid var(--line);border-radius:14px;color:var(--ink);padding:14px;font-size:16px;font-family:inherit;line-height:1.7;resize:vertical}
+textarea::placeholder{color:var(--dim)}
+.timer-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 0}
+.timer-circle{width:250px;height:250px;border-radius:50%;position:relative;display:flex;align-items:center;justify-content:center}
+.timer-circle .ring{position:absolute;inset:0;border-radius:50%;transform:rotate(-90deg)}
+.timer-circle .ring .bg{stroke:var(--line);stroke-width:6;fill:none}
+.timer-circle .ring .fg{stroke:var(--accent);stroke-width:6;fill:none;stroke-linecap:round;transition:stroke-dashoffset 1s linear}
+.timer-circle .tc-in{position:absolute;inset:14px;border-radius:50%;background:var(--bg2);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.timer-num{font-size:56px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:1px}
+.timer-goal{font-size:12.5px;color:var(--dim);margin-top:6px}
+.music-info{margin-top:24px;font-size:13px;color:var(--ink-dim);display:flex;align-items:center;gap:8px;justify-content:center}
+.music-info .eq{display:flex;align-items:flex-end;gap:3px;height:16px}
+.music-info .eq i{width:3px;background:var(--accent);border-radius:2px;animation:eq 1s ease-in-out infinite}
+.music-info .eq i:nth-child(2){animation-delay:.2s}
+.music-info .eq i:nth-child(3){animation-delay:.4s}
+@keyframes eq{0%,100%{height:4px}50%{height:16px}}
+.timer-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:28px;width:100%;max-width:360px}
+.done-hero{text-align:center;padding:26px 0 10px}
+.done-check{width:80px;height:80px;border-radius:50%;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:34px;color:var(--accent)}
+.done-hero h2{font-size:24px;font-weight:700}
+.done-hero p{color:var(--dim);font-size:14px;margin-top:6px}
+.section-title{font-size:14px;font-weight:700;color:var(--ink-dim);letter-spacing:1px;margin:26px 0 12px;display:flex;align-items:center;gap:8px}
+.section-title::after{content:"";flex:1;height:1px;background:var(--line)}
+.log-list{margin-top:8px}
+.log-item{display:flex;align-items:flex-start;gap:14px;padding:16px 14px;border-radius:14px;background:var(--card);border:1px solid var(--line);margin-bottom:12px}
+.log-item .date{min-width:52px;text-align:center}
+.log-item .date b{display:block;font-size:20px;font-weight:700}
+.log-item .date span{font-size:11px;color:var(--dim)}
+.log-item .dur{font-size:14px;font-weight:700;color:var(--accent);white-space:nowrap}
+.log-item .body{flex:1;min-width:0}
+.log-item .note{font-size:14px;color:var(--ink-dim);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.log-item .tag-line{margin-top:6px;display:flex;flex-wrap:wrap;gap:6px}
+.mini-tag{font-size:11px;color:var(--ink-dim);border:1px solid var(--line);border-radius:999px;padding:2px 9px}
+.empty{text-align:center;padding:50px 20px;color:var(--dim)}
+.empty .e-ico{font-size:40px;margin-bottom:12px;opacity:.5}
+.tabbar{position:fixed;bottom:0;left:0;right:0;background:rgba(20,17,14,.94);backdrop-filter:blur(12px);border-top:1px solid var(--line);z-index:50}
+.tabbar-in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr)}
+.tab{display:flex;flex-direction:column;align-items:center;gap:3px;padding:11px 0 10px;color:var(--dim);cursor:pointer;border:none;background:none;font-size:11px;min-height:56px;justify-content:center}
+.tab svg{width:22px;height:22px}
+.tab.active{color:var(--accent)}
+.tab.active .tb-dot{background:var(--accent)}
+.toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:all .3s;z-index:100;white-space:nowrap;max-width:88%;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.page-head{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.page-head h2{font-size:20px;font-weight:700}
+.back{width:38px;height:38px;border-radius:12px;background:var(--card);border:1px solid var(--line);color:var(--ink);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.back:active{transform:scale(.96)}
+.page-sub{color:var(--dim);font-size:13px;margin-bottom:24px}
+.hint{font-size:12px;color:var(--dim);text-align:center;margin-top:16px;line-height:1.7}
+.me-head{display:flex;align-items:center;gap:16px;padding:8px 0 24px}
+.me-avatar{width:64px;height:64px;border-radius:50%;background:var(--accent-soft);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:26px;color:var(--accent);flex-shrink:0}
+.me-name{font-size:18px;font-weight:700}
+.me-name small{display:block;font-size:12px;color:var(--dim);font-weight:400;margin-top:2px}
+.me-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.me-stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+.me-stat b{display:block;font-size:26px;font-weight:700;color:var(--accent)}
+.me-stat span{font-size:12px;color:var(--dim)}
+.about{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-top:20px}
+.about h4{font-size:14px;font-weight:700;margin-bottom:10px}
+.about p{font-size:13px;color:var(--ink-dim);line-height:1.8}
+.menu-item{display:flex;align-items:center;justify-content:space-between;width:100%;padding:16px 14px;background:var(--card);border:1px solid var(--line);border-radius:14px;color:var(--ink);font-size:15px;cursor:pointer;margin-top:12px;min-height:52px}
+.menu-item:active{background:var(--bg2)}
+.menu-item .m-ico{font-size:17px;margin-right:10px}
+.menu-item .row{display:flex;align-items:center}
+.menu-item .arr{color:var(--dim)}
+.pure-text{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;font-size:14px;color:var(--ink-dim);line-height:2}
+.pure-text h3{color:var(--ink);font-size:16px;margin:16px 0 8px}
+.pure-text h3:first-child{margin-top:0}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">站</div>
+    <div>
+      <div class="brand-name">门托·站桩</div>
+      <div class="brand-sub">修身 · 行事</div>
+    </div>
+  </div>
+  <div class="day-badge">已连续 <b id="badgeDays">0</b> 天</div>
+</header>
+<div class="app">
+  <section class="view active" id="view-home">
+    <div class="hero">
+      <div class="mantra-label">今日心法</div>
+      <div class="mantra serif" id="mantra">站，是今天跟自己待会儿。</div>
+      <div class="mantra-en" id="mantraDate"></div>
+    </div>
+    <div class="big-circle" id="homeCircle">
+      <div class="ring"></div>
+      <div class="ring-in"><div class="ring-in-in"></div></div>
+      <div class="c-main">开始站桩</div>
+      <div class="c-sub">今天先站 5 分钟</div>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><b id="statTotal">0<span class="u">分</span></b><span>累计站桩</span></div>
+      <div class="stat"><b id="statStreak">0<span class="u">天</span></b><span>连续坚持</span></div>
+      <div class="stat"><b id="statCount">0<span class="u">次</span></b><span>共站次数</span></div>
+    </div>
+    <div class="today-panel">
+      <div class="today-head"><h3>今天的站</h3><span class="tag" id="todayTag">还没站</span></div>
+      <div id="todaySessions"></div>
+    </div>
+  </section>
+  <section class="view" id="view-before">
+    <div class="page-head">
+      <button class="back" data-nav="home">‹</button>
+      <h2>站桩前</h2>
+    </div>
+    <p class="page-sub">定个时长，选段声音，然后站。</p>
+    <div class="field">
+      <label>站多久（5 分钟就有用）</label>
+      <div class="chips" id="durChips"></div>
+    </div>
+    <div class="field">
+      <label>背景声音</label>
+      <div class="chips" id="musicChips"></div>
+    </div>
+    <div class="field">
+      <label>此刻身体的感受（可选）</label>
+      <div class="chips" id="beforeFeels"></div>
+    </div>
+    <textarea id="beforeNote" placeholder="站之前，心里在想什么？写一句……"></textarea>
+    <div style="margin-top:24px">
+      <button class="btn primary" id="startBtn">开始站桩</button>
+    </div>
+    <p class="hint">开始后手机可以息屏，让声音陪着你。</p>
+  </section>
+  <section class="view" id="view-session">
+    <div class="timer-wrap">
+      <div class="timer-circle">
+        <svg class="ring" viewBox="0 0 100 100">
+          <circle class="bg" cx="50" cy="50" r="46"/>
+          <circle class="fg" id="timerFg" cx="50" cy="50" r="46" stroke-dasharray="289.03" stroke-dashoffset="0"/>
+        </svg>
+        <div class="tc-in">
+          <div class="timer-num" id="timerNum">00:00</div>
+          <div class="timer-goal" id="timerGoal">目标 5 分钟</div>
+        </div>
+      </div>
+      <div class="music-info">
+        <span id="nowPlaying"></span>
+        <div class="eq" id="eq"><i></i><i></i><i></i></div>
+      </div>
+      <div class="timer-actions">
+        <button class="btn ghost" id="pauseBtn">暂停</button>
+        <button class="btn primary" id="finishBtn">站完</button>
+      </div>
+    </div>
+  </section>
+  <section class="view" id="view-after">
+    <div class="done-hero">
+      <div class="done-check">✓</div>
+      <h2>这站站完了</h2>
+      <p id="afterDur">今天多站了 5 分钟</p>
+    </div>
+    <div class="section-title">身体的感受</div>
+    <div class="chips" id="afterFeels"></div>
+    <div class="section-title">站桩后的感触</div>
+    <textarea id="afterNote" placeholder="站完这一站，身体或心里有什么变化？……"></textarea>
+    <div style="margin-top:24px">
+      <button class="btn primary" id="saveBtn">记下这一站</button>
+    </div>
+    <p class="hint">记下来，攒着，之后你站桩的规律和变化，都能回看。</p>
+  </section>
+  <section class="view" id="view-log">
+    <div class="page-head"><h2>站桩记录</h2></div>
+    <p class="page-sub">你每次站的时长和感触，都在这里。</p>
+    <div class="log-list" id="logList"></div>
+  </section>
+  <section class="view" id="view-me">
+    <div class="me-head">
+      <div class="me-avatar">门</div>
+      <div class="me-name">门托站友
+        <small>修身行事 · 把站桩过成日子</small>
+      </div>
+    </div>
+    <div class="me-stats">
+      <div class="me-stat"><b id="meTotal">0</b><span>累计站桩（分钟）</span></div>
+      <div class="me-stat"><b id="meStreak">0</b><span>连续坚持（天）</span></div>
+      <div class="me-stat"><b id="meCount">0</b><span>站桩次数</span></div>
+      <div class="me-stat"><b id="meToday">0</b><span>今日站桩（分钟）</span></div>
+    </div>
+    <div class="about">
+      <h4>关于站桩</h4>
+      <p>站桩不难，难的是天天站。不用追求一次站很久，5 分钟就够——先站住，再站久。每天站一次，比一次站很久，更能养成习惯。</p>
+    </div>
+    <button class="menu-item" id="openAbout"><span class="row"><span class="m-ico">◎</span>站桩心法 · 门托的话</span><span class="arr">›</span></button>
+    <button class="menu-item" id="resetBtn"><span class="row"><span class="m-ico">↺</span>清空我的记录</span><span class="arr">›</span></button>
+  </section>
+  <section class="view" id="view-about">
+    <div class="page-head">
+      <button class="back" data-nav="me">‹</button>
+      <h2>站桩心法</h2>
+    </div>
+    <div class="pure-text" id="aboutText"></div>
+  </section>
+</div>
+<nav class="tabbar">
+  <div class="tabbar-in">
+    <button class="tab active" data-tab="home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 9.5V20h5v-6h4v6h5V9.5"/></svg>
+      今日
+    </button>
+    <button class="tab" data-tab="log">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h10a2 2 0 0 1 2 2v16l-4-2-4 2-4-2-2 1V5a2 2 0 0 1 2-2z"/><path d="M9 8h6M9 12h6"/></svg>
+      记录
+    </button>
+    <button class="tab" data-tab="me">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>
+      我的
+    </button>
+  </div>
+</nav>
+<div class="toast" id="toast"></div>
+<script>
+var MANTRA = [
+  "站，是今天跟自己待会儿。",
+  "今天先站 5 分钟，再说别的。",
+  "身定，事才稳。",
+  "外头再乱，先把自己站住。",
+  "5 分钟就够，来了就赢。",
+  "每天站一次，比一次站很久强。",
+  "这一站，是把日子立起来。",
+  "站着不动，是最省力的前进。",
+  "心静下来，力气就回来了。",
+  "站桩不难，难的是天天站。",
+  "先把身子站直，再谈别的。",
+  "今天这一站，是给明天的自己。"
+];
+var MANTRA_EN = "STAND · STILL · STEADY";
+var DUR_OPTIONS = [3,5,10,15,20,30];
+var MUSIC_OPTIONS = [
+  {id:"guqin", name:"幽谷磬", desc:"沉稳磬音"},
+  {id:"bai", name:"空谷白", desc:"柔和白噪"},
+  {id:"breath", name:"一呼一吸", desc:"呼吸引导"},
+  {id:"silent", name:"静默", desc:"只计时，无声音"}
+];
+var FEEL_BEFORE = ["疲惫","烦躁","紧绷","平静","松散","昏沉","焦虑","精神"];
+var FEEL_AFTER = ["松了","更静","发热","微汗","麻胀","清爽","踏实","杂念多"];
+var DAY_MS = 86400000;
+var state = {};
+function loadState(){
+  try{ state = JSON.parse(localStorage.getItem("menduo_zhangzhuang_v1")) || defaultState(); }
+  catch(e){ state = defaultState(); }
+  migrate();
+}
+function defaultState(){
+  return { started:"", lastActive:"", totalMin:0, streak:0, count:0, logs:[], todayDone:false };
+}
+function saveState(){
+  localStorage.setItem("menduo_zhangzhuang_v1", JSON.stringify(state));
+}
+function migrate(){ if(!state.logs) state.logs=[]; if(typeof state.count!=="number") state.count=0; }
+function todayStr(){ var d=new Date(); return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate(); }
+function fmtDate(d){ return (d.getMonth()+1)+"月"+d.getDate()+"日"; }
+function weekday(){ return ["周日","周一","周二","周三","周四","周五","周六"][new Date().getDay()]; }
+function pad(n){ return n<10? "0"+n : ""+n; }
+function mmss(s){ s=Math.max(0,Math.round(s)); return pad(Math.floor(s/60))+":"+pad(s%60); }
+function mantraOf(dayIdx){ return MANTRA[dayIdx % MANTRA.length]; }
+function show(name){
+  document.querySelectorAll(".view").forEach(function(v){ v.classList.remove("active"); });
+  document.getElementById("view-"+name).classList.add("active");
+  document.querySelectorAll(".tab").forEach(function(t){ t.classList.toggle("active", t.dataset.tab===name); });
+  window.scrollTo(0,0);
+  if(name==="home") renderHome();
+  if(name==="log") renderLog();
+  if(name==="me") renderMe();
+  if(name==="about") renderAbout();
+}
+document.addEventListener("click", function(e){
+  var nav=e.target.closest("[data-nav]"); if(nav){ show(nav.dataset.nav); }
+  var tab=e.target.closest(".tab"); if(tab){ show(tab.dataset.tab); }
+});
+function renderHome(){
+  var idx = Math.floor(Date.now()/DAY_MS);
+  document.getElementById("mantra").textContent = mantraOf(idx);
+  document.getElementById("mantraDate").textContent = fmtDate(new Date())+" · "+weekday()+" · "+MANTRA_EN;
+  document.getElementById("badgeDays").textContent = state.streak;
+  document.getElementById("statTotal").innerHTML = state.totalMin+'<span class="u">分</span>';
+  document.getElementById("statStreak").innerHTML = state.streak+'<span class="u">天</span>';
+  document.getElementById("statCount").innerHTML = state.count+'<span class="u">次</span>';
+  renderTodaySessions();
+}
+function renderTodaySessions(){
+  var box=document.getElementById("todaySessions");
+  var tag=document.getElementById("todayTag");
+  var sessions=[{label:"站前记录",done:state.todayBefore,doneLabel:"已记录",todoLabel:"待记录"},
+                {label:"站桩计时",done:state.todayDone,doneLabel:"已完成",todoLabel:"今天还没站"},
+                {label:"站后记录",done:state.todayAfter,doneLabel:"已记录",todoLabel:"待记录"}];
+  if(state.todayDone){ tag.textContent="今天站完了"; tag.classList.remove("no"); }
+  else{ tag.textContent="还没站"; tag.classList.add("no"); }
+  box.innerHTML = sessions.map(function(s,i){
+    var cls = s.done? "done" : (i===1&&!state.todayDone ? "now" : "todo");
+    return '<div class="sess"><span class="dot '+cls+'"></span><div class="txt">'+s.label+'<small>'+ (s.done?s.doneLabel:s.todoLabel) +'</small></div></div>';
+  }).join("");
+}
+var homeCircle=document.getElementById("homeCircle");
+homeCircle.addEventListener("click", function(){ prepareBefore(); show("before"); });
+var selDur=5, selMusic="guqin", selBeforeFeels=[];
+function prepareBefore(){
+  selDur=5; selMusic="guqin"; selBeforeFeels=[];
+  renderChips("durChips", DUR_OPTIONS.map(function(d){ return {id:d, label:d+" 分钟"}; }), String(selDur), function(id){ selDur=+id; });
+  renderChips("musicChips", MUSIC_OPTIONS.map(function(m){ return {id:m.id, label:m.name, sub:m.desc}; }), selMusic, function(id){ selMusic=id; });
+  renderChips("beforeFeels", FEEL_BEFORE.map(function(f){ return {id:f, label:f}; }), null, function(id,el){
+    el.classList.toggle("sel");
+    var i=selBeforeFeels.indexOf(id);
+    if(i>=0) selBeforeFeels.splice(i,1); else selBeforeFeels.push(id);
+  }, true);
+  document.getElementById("beforeNote").value="";
+}
+function renderChips(id, items, activeId, cb, multi){
+  var box=document.getElementById(id);
+  box.innerHTML = items.map(function(it){
+    var act = multi? "" : (String(it.id)===String(activeId)? "active":"");
+    return '<div class="chip '+act+'" data-id="'+it.id+'">'+it.label+(it.sub? '<small style="margin-left:6px;font-size:11px;opacity:.6">'+it.sub+'</small>':'')+'</div>';
+  }).join("");
+  box.querySelectorAll(".chip").forEach(function(el){
+    el.addEventListener("click", function(){
+      if(multi){ el.classList.toggle("sel"); }
+      else{ box.querySelectorAll(".chip").forEach(function(x){x.classList.remove("active");}); el.classList.add("active"); }
+      cb(el.dataset.id, el);
+    });
+  });
+}
+document.getElementById("startBtn").addEventListener("click", function(){
+  state.todayBefore=true; state.lastActive=todayStr(); saveState();
+  startSession(selDur, selMusic, selBeforeFeels, document.getElementById("beforeNote").value);
+});
+var session=null, audioCtx=null, audioNodes=null, musicTimer=null, paused=false;
+var CIRC=289.03;
+function startSession(durMin, musicId, beforeFeels, beforeNote){
+  session={ goal: durMin*60, elapsed:0, music:musicId, feels:beforeFeels, note:beforeNote, started:Date.now() };
+  document.getElementById("timerGoal").textContent="目标 "+durMin+" 分钟";
+  document.getElementById("nowPlaying").textContent = musicLabel(musicId);
+  setTimerDisplay(0, durMin*60);
+  show("session");
+  if(musicId!=="silent") startMusic(musicId);
+  session.tick=setInterval(function(){ tick(); }, 1000);
+}
+function musicLabel(id){ var m=MUSIC_OPTIONS.find(function(x){return x.id===id;}); return m? m.name+" · "+m.desc : ""; }
+function tick(){
+  if(paused) return;
+  session.elapsed = Math.floor((Date.now()-session.started)/1000);
+  var dur=session.goal;
+  setTimerDisplay(session.elapsed, dur);
+  if(session.elapsed>=dur){ finishSession(); }
+}
+function setTimerDisplay(elapsed, goal){
+  document.getElementById("timerNum").textContent = mmss(elapsed);
+  var left = Math.max(0, goal-elapsed);
+  document.getElementById("timerFg").style.strokeDashoffset = CIRC * (1 - (goal? elapsed/goal : 0));
+  document.getElementById("timerGoal").textContent = "还剩 "+mmss(left);
+}
+document.getElementById("pauseBtn").addEventListener("click", function(){
+  paused=!paused;
+  this.textContent = paused? "继续" : "暂停";
+  if(audioCtx && !paused) resumeMusic();
+});
+document.getElementById("finishBtn").addEventListener("click", function(){ finishSession(); });
+function finishSession(){
+  if(!session) return;
+  clearInterval(session.tick); session.tick=null;
+  stopMusic();
+  var sec = Math.max(session.elapsed, 5);
+  session.elapsed=sec;
+  prepareAfter(sec);
+  show("after");
+}
+var selAfterFeels=[], afterSec=0;
+function prepareAfter(sec){
+  afterSec=sec;
+  selAfterFeels=[];
+  document.getElementById("afterDur").textContent = "今天多站了 "+mmss(sec);
+  renderChips("afterFeels", FEEL_AFTER.map(function(f){ return {id:f, label:f}; }), null, function(id,el){
+    el.classList.toggle("sel");
+    var i=selAfterFeels.indexOf(id);
+    if(i>=0) selAfterFeels.splice(i,1); else selAfterFeels.push(id);
+  }, true);
+  document.getElementById("afterNote").value="";
+}
+document.getElementById("saveBtn").addEventListener("click", function(){
+  var note=document.getElementById("afterNote").value.trim();
+  var min=Math.round(afterSec/60*10)/10;
+  state.totalMin = Math.round((state.totalMin+min)*10)/10;
+  state.count++;
+  state.todayDone=true; state.todayAfter=true;
+  state.logs.unshift({
+    date:todayStr(), sec:afterSec, min:min,
+    beforeFeels:session? session.feels:[], beforeNote:session? session.note:"",
+    afterFeels:selAfterFeels.slice(), afterNote:note
+  });
+  state.logs=state.logs.slice(0,500);
+  updateStreak();
+  saveState();
+  session=null;
+  toast("这一站记下了。");
+  show("home");
+});
+function updateStreak(){
+  var last=state.lastActive;
+  var today=todayStr();
+  if(last===today) return;
+  if(last && daysBetween(last, today)<=1) state.streak++;
+  else state.streak=1;
+  state.lastActive=today;
+}
+function daysBetween(a,b){
+  var da=new Date(a), db=new Date(b);
+  return Math.round((db-da)/DAY_MS);
+}
+function renderLog(){
+  var box=document.getElementById("logList");
+  if(!state.logs.length){
+    box.innerHTML='<div class="empty"><div class="e-ico">⛰</div>还没有站桩记录<br><span style="font-size:13px">去今日，先站 5 分钟。</span></div>';
+    return;
+  }
+  box.innerHTML=state.logs.map(function(l,i){
+    var d=l.date.split("-");
+    var note = l.afterNote || l.beforeNote || "";
+    var tags=(l.afterFeels||[]).map(function(t){return '<span class="mini-tag">'+t+'</span>';}).join("");
+    return '<div class="log-item">'+
+      '<div class="date"><b>'+d[2]+'</b><span>'+d[1]+'月</span></div>'+
+      '<div class="dur">'+mmss(l.sec)+'</div>'+
+      '<div class="body"><div class="note">'+(note||"（这一站没有留下文字）")+'</div>'+
+      (tags?'<div class="tag-line">'+tags+'</div>':'')+
+      '</div></div>';
+  }).join("");
+}
+function renderMe(){
+  document.getElementById("meTotal").textContent=state.totalMin;
+  document.getElementById("meStreak").textContent=state.streak;
+  document.getElementById("meCount").textContent=state.count;
+  var todayMin=0;
+  var today=todayStr();
+  state.logs.forEach(function(l){ if(l.date===today) todayMin+=l.min; });
+  document.getElementById("meToday").textContent=Math.round(todayMin*10)/10;
+}
+function renderAbout(){
+  document.getElementById("aboutText").innerHTML=
+    '<h3>为什么要天天站</h3>'+
+    '<p>站桩不是表演，是每天给自己留一段不动的时光。身体松下来，心才定得下来；心定了，白天的事才做得稳。先站住，再站久——5 分钟就够，来了就赢。</p>'+
+    '<h3>怎么站</h3>'+
+    '<p>两脚与肩同宽，膝盖微松，脊柱自然立直，像一棵树稳稳站住。不用追求标准，先站够时间。站的时候杂念来了，就让它们过去，把注意力放回呼吸上。</p>'+
+    '<h3>坚持的窍门</h3>'+
+    '<p>别跟自己讨价还价。每天固定一个时间，站了就是赢了。身体会告诉你它的节奏：有时松，有时紧，有时发热微汗——这些都正常，记下来，回看就有答案。</p>';
+}
+document.getElementById("resetBtn").addEventListener("click", function(){
+  if(confirm("确定清空所有站桩记录吗？此操作不可恢复。")){
+    state=defaultState(); saveState();
+    toast("已清空。重新开始。"); show("me");
+  }
+});
+document.getElementById("openAbout").addEventListener("click", function(){ show("about"); });
+function ensureAudio(){ if(!audioCtx){ audioCtx=new (window.AudioContext||window.webkitAudioContext)(); } if(audioCtx.state==="suspended"){ audioCtx.resume(); } }
+function startMusic(id){
+  ensureAudio();
+  stopMusic();
+  var ctx=audioCtx;
+  var master=ctx.createGain(); master.gain.value=0.32; master.connect(ctx.destination);
+  audioNodes={master:master,id:id};
+  if(id==="guqin") startGuqin(ctx,master);
+  else if(id==="bai") startBai(ctx,master);
+  else if(id==="breath") startBreath(ctx,master);
+}
+function stopMusic(){
+  if(audioNodes && audioNodes.stop){ try{audioNodes.stop();}catch(e){} }
+  if(audioNodes && audioNodes.master && audioNodes.master.disconnect) audioNodes.master.disconnect();
+  if(musicTimer){ clearInterval(musicTimer); musicTimer=null; }
+  audioNodes=null;
+  document.getElementById("eq").style.display="none";
+}
+function resumeMusic(){ if(audioNodes && audioNodes.resume){ audioNodes.resume(); } }
+function noiseBuffer(ctx, sec){
+  var len=ctx.sampleRate*sec, buf=ctx.createBuffer(1,len,ctx.sampleRate), data=buf.getChannelData(0);
+  for(var i=0;i<len;i++) data[i]=Math.random()*2-1;
+  return buf;
+}
+function startBai(ctx,master){
+  var src=ctx.createBufferSource(); src.buffer=noiseBuffer(ctx,3); src.loop=true;
+  var filter=ctx.createBiquadFilter(); filter.type="lowpass"; filter.frequency.value=520;
+  var g=ctx.createGain(); g.gain.value=0.5;
+  src.connect(filter).connect(g).connect(master);
+  src.start();
+  audioNodes.stop=function(){ src.stop(); }; audioNodes.resume=function(){ if(ctx.state==="suspended") ctx.resume(); };
+  document.getElementById("eq").style.display="flex";
+}
+function startGuqin(ctx,master){
+  function strike(){
+    var t=ctx.currentTime;
+    var osc=ctx.createOscillator(); osc.type="sine";
+    osc.frequency.setValueAtTime(174.6,t);
+    osc.frequency.exponentialRampToValueAtTime(160,t+2.2);
+    var g=ctx.createGain(); g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(0.9,t+0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+3.2);
+    osc.connect(g).connect(master);
+    osc.start(t); osc.stop(t+3.3);
+  }
+  strike();
+  musicTimer=setInterval(function(){ if(!paused) strike(); }, 6000);
+  audioNodes.stop=function(){ clearInterval(musicTimer); musicTimer=null; };
+  audioNodes.resume=function(){ if(ctx.state==="suspended") ctx.resume(); };
+  document.getElementById("eq").style.display="flex";
+}
+function startBreath(ctx,master){
+  var inh=false;
+  function breath(){
+    var t=ctx.currentTime;
+    var osc=ctx.createOscillator(); osc.type="sine"; osc.frequency.value=528;
+    var g=ctx.createGain(); g.gain.setValueAtTime(0.0001,t);
+    if(!inh){ g.gain.exponentialRampToValueAtTime(0.001,t+0.05); }
+    var dur=inh? 1.6 : 4.2;
+    g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    osc.connect(g).connect(master); osc.start(t); osc.stop(t+dur+0.1);
+    inh=!inh;
+  }
+  breath();
+  musicTimer=setInterval(function(){ if(!paused) breath(); }, 5800);
+  audioNodes.stop=function(){ clearInterval(musicTimer); musicTimer=null; };
+  audioNodes.resume=function(){ if(ctx.state==="suspended") ctx.resume(); };
+  document.getElementById("eq").style.display="flex";
+}
+var toastTimer=null;
+function toast(msg){
+  var t=document.getElementById("toast");
+  t.textContent=msg; t.classList.add("show");
+  if(toastTimer) clearTimeout(toastTimer);
+  toastTimer=setTimeout(function(){ t.classList.remove("show"); }, 2200);
+}
+loadState();
+(function boot(){
+  var today=todayStr();
+  if(state.lastActive && state.lastActive!==today){
+    if(daysBetween(state.lastActive, today)<=1) state.streak++;
+    else state.streak=0;
+    state.lastActive=today;
+    state.todayDone=false; state.todayBefore=false; state.todayAfter=false;
+    saveState();
+  } else if(!state.lastActive){
+    state.lastActive=today; saveState();
+  }
+})();
+renderHome();
+</script>
+</body>
+</html>
