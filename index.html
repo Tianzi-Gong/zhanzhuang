@@ -29,9 +29,11 @@ body{
 }
 .serif{font-family:"Songti SC","Noto Serif SC","STSong","SimSun",serif}
 .app{max-width:560px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;padding-bottom:76px}
+/* ===== 视图 ===== */
 .view{display:none;flex-direction:column;flex:1;padding:22px 20px 20px;animation:fade .28s ease}
 .view.active{display:flex}
 @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+/* ===== 顶栏 ===== */
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:8px 20px 4px}
 .brand{display:flex;align-items:center;gap:10px}
 .logo{width:34px;height:34px;border-radius:10px;background:var(--accent-soft);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:17px;font-weight:700}
@@ -39,6 +41,7 @@ body{
 .brand-sub{font-size:11px;color:var(--dim);letter-spacing:2px}
 .day-badge{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:12.5px;color:var(--ink-dim);display:flex;align-items:center;gap:6px}
 .day-badge b{color:var(--accent);font-size:14px}
+/* ===== 首页 ===== */
 .hero{margin-top:18px;text-align:center}
 .mantra-label{font-size:11.5px;letter-spacing:4px;color:var(--dim);margin-bottom:14px}
 .mantra{font-size:27px;line-height:1.5;font-weight:600;letter-spacing:1px}
@@ -54,6 +57,7 @@ body{
 .stat b{display:block;font-size:24px;font-weight:700;color:var(--ink)}
 .stat span{font-size:12px;color:var(--dim)}
 .stat .u{font-size:12px;color:var(--accent);margin-left:2px}
+/* ===== 今日进度 ===== */
 .today-panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin-top:20px}
 .today-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
 .today-head h3{font-size:14px;font-weight:700;letter-spacing:1px}
@@ -68,6 +72,7 @@ body{
 .sess .txt{flex:1;font-size:14px}
 .sess .txt small{display:block;font-size:11.5px;color:var(--dim)}
 .sess .time{font-size:13px;color:var(--ink-dim);font-variant-numeric:tabular-nums}
+/* ===== 按钮 ===== */
 .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px;border-radius:14px;border:none;font-size:16px;font-weight:700;cursor:pointer;transition:transform .06s,opacity .2s}
 .btn:active{transform:scale(.985)}
 .btn.primary{background:var(--accent);color:#1A1209}
@@ -75,6 +80,7 @@ body{
 .btn.soft{background:var(--accent-soft);color:var(--accent);border:1px solid rgba(224,134,59,.3)}
 .btn.sm{padding:12px 16px;font-size:14px;width:auto}
 .btn:disabled{opacity:.4;pointer-events:none}
+/* ===== 表单 ===== */
 .field{margin-bottom:20px}
 .field label{display:block;font-size:13px;color:var(--ink-dim);margin-bottom:10px;letter-spacing:1px}
 .chips{display:flex;flex-wrap:wrap;gap:10px}
@@ -83,6 +89,7 @@ body{
 .chip.sel{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
 textarea{width:100%;min-height:120px;background:var(--card);border:1px solid var(--line);border-radius:14px;color:var(--ink);padding:14px;font-size:16px;font-family:inherit;line-height:1.7;resize:vertical}
 textarea::placeholder{color:var(--dim)}
+/* ===== 计时 ===== */
 .timer-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 0}
 .timer-circle{width:250px;height:250px;border-radius:50%;position:relative;display:flex;align-items:center;justify-content:center}
 .timer-circle .ring{position:absolute;inset:0;border-radius:50%;transform:rotate(-90deg)}
@@ -98,12 +105,14 @@ textarea::placeholder{color:var(--dim)}
 .music-info .eq i:nth-child(3){animation-delay:.4s}
 @keyframes eq{0%,100%{height:4px}50%{height:16px}}
 .timer-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:28px;width:100%;max-width:360px}
+/* ===== 站后 ===== */
 .done-hero{text-align:center;padding:26px 0 10px}
 .done-check{width:80px;height:80px;border-radius:50%;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:34px;color:var(--accent)}
 .done-hero h2{font-size:24px;font-weight:700}
 .done-hero p{color:var(--dim);font-size:14px;margin-top:6px}
 .section-title{font-size:14px;font-weight:700;color:var(--ink-dim);letter-spacing:1px;margin:26px 0 12px;display:flex;align-items:center;gap:8px}
 .section-title::after{content:"";flex:1;height:1px;background:var(--line)}
+/* ===== 记录列表 ===== */
 .log-list{margin-top:8px}
 .log-item{display:flex;align-items:flex-start;gap:14px;padding:16px 14px;border-radius:14px;background:var(--card);border:1px solid var(--line);margin-bottom:12px}
 .log-item .date{min-width:52px;text-align:center}
@@ -116,20 +125,24 @@ textarea::placeholder{color:var(--dim)}
 .mini-tag{font-size:11px;color:var(--ink-dim);border:1px solid var(--line);border-radius:999px;padding:2px 9px}
 .empty{text-align:center;padding:50px 20px;color:var(--dim)}
 .empty .e-ico{font-size:40px;margin-bottom:12px;opacity:.5}
+/* ===== 底部导航 ===== */
 .tabbar{position:fixed;bottom:0;left:0;right:0;background:rgba(20,17,14,.94);backdrop-filter:blur(12px);border-top:1px solid var(--line);z-index:50}
 .tabbar-in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr)}
 .tab{display:flex;flex-direction:column;align-items:center;gap:3px;padding:11px 0 10px;color:var(--dim);cursor:pointer;border:none;background:none;font-size:11px;min-height:56px;justify-content:center}
 .tab svg{width:22px;height:22px}
 .tab.active{color:var(--accent)}
 .tab.active .tb-dot{background:var(--accent)}
+/* ===== toast ===== */
 .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:all .3s;z-index:100;white-space:nowrap;max-width:88%;text-align:center}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* ===== 页头 ===== */
 .page-head{display:flex;align-items:center;gap:12px;margin-bottom:8px}
 .page-head h2{font-size:20px;font-weight:700}
 .back{width:38px;height:38px;border-radius:12px;background:var(--card);border:1px solid var(--line);color:var(--ink);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .back:active{transform:scale(.96)}
 .page-sub{color:var(--dim);font-size:13px;margin-bottom:24px}
 .hint{font-size:12px;color:var(--dim);text-align:center;margin-top:16px;line-height:1.7}
+/* ===== 我的页 ===== */
 .me-head{display:flex;align-items:center;gap:16px;padding:8px 0 24px}
 .me-avatar{width:64px;height:64px;border-radius:50%;background:var(--accent-soft);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:26px;color:var(--accent);flex-shrink:0}
 .me-name{font-size:18px;font-weight:700}
@@ -146,12 +159,14 @@ textarea::placeholder{color:var(--dim)}
 .menu-item .m-ico{font-size:17px;margin-right:10px}
 .menu-item .row{display:flex;align-items:center}
 .menu-item .arr{color:var(--dim)}
+/* ===== 设置/关于 ===== */
 .pure-text{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;font-size:14px;color:var(--ink-dim);line-height:2}
 .pure-text h3{color:var(--ink);font-size:16px;margin:16px 0 8px}
 .pure-text h3:first-child{margin-top:0}
 </style>
 </head>
 <body>
+<!-- ===== 顶部品牌 ===== -->
 <header class="topbar">
   <div class="brand">
     <div class="logo">站</div>
@@ -162,7 +177,10 @@ textarea::placeholder{color:var(--dim)}
   </div>
   <div class="day-badge">已连续 <b id="badgeDays">0</b> 天</div>
 </header>
+
 <div class="app">
+
+  <!-- ===== 视图：今日 ===== -->
   <section class="view active" id="view-home">
     <div class="hero">
       <div class="mantra-label">今日心法</div>
@@ -185,6 +203,8 @@ textarea::placeholder{color:var(--dim)}
       <div id="todaySessions"></div>
     </div>
   </section>
+
+  <!-- ===== 视图：站前 ===== -->
   <section class="view" id="view-before">
     <div class="page-head">
       <button class="back" data-nav="home">‹</button>
@@ -209,6 +229,8 @@ textarea::placeholder{color:var(--dim)}
     </div>
     <p class="hint">开始后手机可以息屏，让声音陪着你。</p>
   </section>
+
+  <!-- ===== 视图：站中 ===== -->
   <section class="view" id="view-session">
     <div class="timer-wrap">
       <div class="timer-circle">
@@ -231,6 +253,8 @@ textarea::placeholder{color:var(--dim)}
       </div>
     </div>
   </section>
+
+  <!-- ===== 视图：站后 ===== -->
   <section class="view" id="view-after">
     <div class="done-hero">
       <div class="done-check">✓</div>
@@ -246,11 +270,15 @@ textarea::placeholder{color:var(--dim)}
     </div>
     <p class="hint">记下来，攒着，之后你站桩的规律和变化，都能回看。</p>
   </section>
+
+  <!-- ===== 视图：记录 ===== -->
   <section class="view" id="view-log">
     <div class="page-head"><h2>站桩记录</h2></div>
     <p class="page-sub">你每次站的时长和感触，都在这里。</p>
     <div class="log-list" id="logList"></div>
   </section>
+
+  <!-- ===== 视图：我的 ===== -->
   <section class="view" id="view-me">
     <div class="me-head">
       <div class="me-avatar">门</div>
@@ -271,6 +299,8 @@ textarea::placeholder{color:var(--dim)}
     <button class="menu-item" id="openAbout"><span class="row"><span class="m-ico">◎</span>站桩心法 · 门托的话</span><span class="arr">›</span></button>
     <button class="menu-item" id="resetBtn"><span class="row"><span class="m-ico">↺</span>清空我的记录</span><span class="arr">›</span></button>
   </section>
+
+  <!-- ===== 视图：关于 ===== -->
   <section class="view" id="view-about">
     <div class="page-head">
       <button class="back" data-nav="me">‹</button>
@@ -278,7 +308,10 @@ textarea::placeholder{color:var(--dim)}
     </div>
     <div class="pure-text" id="aboutText"></div>
   </section>
+
 </div>
+
+<!-- ===== 底部导航 ===== -->
 <nav class="tabbar">
   <div class="tabbar-in">
     <button class="tab active" data-tab="home">
@@ -295,8 +328,11 @@ textarea::placeholder{color:var(--dim)}
     </button>
   </div>
 </nav>
+
 <div class="toast" id="toast"></div>
+
 <script>
+/* ===== 常量与数据 ===== */
 var MANTRA = [
   "站，是今天跟自己待会儿。",
   "今天先站 5 分钟，再说别的。",
@@ -321,8 +357,10 @@ var MUSIC_OPTIONS = [
 ];
 var FEEL_BEFORE = ["疲惫","烦躁","紧绷","平静","松散","昏沉","焦虑","精神"];
 var FEEL_AFTER = ["松了","更静","发热","微汗","麻胀","清爽","踏实","杂念多"];
+
 var DAY_MS = 86400000;
 var state = {};
+
 function loadState(){
   try{ state = JSON.parse(localStorage.getItem("menduo_zhangzhuang_v1")) || defaultState(); }
   catch(e){ state = defaultState(); }
@@ -335,13 +373,18 @@ function saveState(){
   localStorage.setItem("menduo_zhangzhuang_v1", JSON.stringify(state));
 }
 function migrate(){ if(!state.logs) state.logs=[]; if(typeof state.count!=="number") state.count=0; }
+
 function todayStr(){ var d=new Date(); return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate(); }
 function fmtDate(d){ return (d.getMonth()+1)+"月"+d.getDate()+"日"; }
 function weekday(){ return ["周日","周一","周二","周三","周四","周五","周六"][new Date().getDay()]; }
 function pad(n){ return n<10? "0"+n : ""+n; }
 function mmss(s){ s=Math.max(0,Math.round(s)); return pad(Math.floor(s/60))+":"+pad(s%60); }
+function hmToStr(min){ if(min>=60){ return (min/60).toFixed(1)+" 小时"; } return min+" 分钟"; }
 function mantraOf(dayIdx){ return MANTRA[dayIdx % MANTRA.length]; }
+
+/* ===== 视图路由 ===== */
 function show(name){
+  if(name!=="before" && name!=="session"){ stopMusic(); }
   document.querySelectorAll(".view").forEach(function(v){ v.classList.remove("active"); });
   document.getElementById("view-"+name).classList.add("active");
   document.querySelectorAll(".tab").forEach(function(t){ t.classList.toggle("active", t.dataset.tab===name); });
@@ -355,6 +398,8 @@ document.addEventListener("click", function(e){
   var nav=e.target.closest("[data-nav]"); if(nav){ show(nav.dataset.nav); }
   var tab=e.target.closest(".tab"); if(tab){ show(tab.dataset.tab); }
 });
+
+/* ===== 首页 ===== */
 function renderHome(){
   var idx = Math.floor(Date.now()/DAY_MS);
   document.getElementById("mantra").textContent = mantraOf(idx);
@@ -380,13 +425,14 @@ function renderTodaySessions(){
 }
 var homeCircle=document.getElementById("homeCircle");
 homeCircle.addEventListener("click", function(){ prepareBefore(); show("before"); });
+
+/* ===== 站前 ===== */
 var selDur=5, selMusic="guqin", selBeforeFeels=[];
 function prepareBefore(){
   selDur=5; selMusic="guqin"; selBeforeFeels=[];
   renderChips("durChips", DUR_OPTIONS.map(function(d){ return {id:d, label:d+" 分钟"}; }), String(selDur), function(id){ selDur=+id; });
-  renderChips("musicChips", MUSIC_OPTIONS.map(function(m){ return {id:m.id, label:m.name, sub:m.desc}; }), selMusic, function(id){ selMusic=id; });
-  renderChips("beforeFeels", FEEL_BEFORE.map(function(f){ return {id:f, label:f}; }), null, function(id,el){
-    el.classList.toggle("sel");
+  renderChips("musicChips", MUSIC_OPTIONS.map(function(m){ return {id:m.id, label:m.name, sub:m.desc}; }), selMusic, function(id){ selMusic=id; previewMusic(id); });
+  renderChips("beforeFeels", FEEL_BEFORE.map(function(f){ return {id:f, label:f}; }), null, function(id){
     var i=selBeforeFeels.indexOf(id);
     if(i>=0) selBeforeFeels.splice(i,1); else selBeforeFeels.push(id);
   }, true);
@@ -410,6 +456,8 @@ document.getElementById("startBtn").addEventListener("click", function(){
   state.todayBefore=true; state.lastActive=todayStr(); saveState();
   startSession(selDur, selMusic, selBeforeFeels, document.getElementById("beforeNote").value);
 });
+
+/* ===== 站中 · 计时 + 音乐 ===== */
 var session=null, audioCtx=null, audioNodes=null, musicTimer=null, paused=false;
 var CIRC=289.03;
 function startSession(durMin, musicId, beforeFeels, beforeNote){
@@ -450,13 +498,14 @@ function finishSession(){
   prepareAfter(sec);
   show("after");
 }
+
+/* ===== 站后 ===== */
 var selAfterFeels=[], afterSec=0;
 function prepareAfter(sec){
   afterSec=sec;
   selAfterFeels=[];
   document.getElementById("afterDur").textContent = "今天多站了 "+mmss(sec);
-  renderChips("afterFeels", FEEL_AFTER.map(function(f){ return {id:f, label:f}; }), null, function(id,el){
-    el.classList.toggle("sel");
+  renderChips("afterFeels", FEEL_AFTER.map(function(f){ return {id:f, label:f}; }), null, function(id){
     var i=selAfterFeels.indexOf(id);
     if(i>=0) selAfterFeels.splice(i,1); else selAfterFeels.push(id);
   }, true);
@@ -480,6 +529,8 @@ document.getElementById("saveBtn").addEventListener("click", function(){
   toast("这一站记下了。");
   show("home");
 });
+
+/* ===== 连续天数 ===== */
 function updateStreak(){
   var last=state.lastActive;
   var today=todayStr();
@@ -492,6 +543,8 @@ function daysBetween(a,b){
   var da=new Date(a), db=new Date(b);
   return Math.round((db-da)/DAY_MS);
 }
+
+/* ===== 记录 ===== */
 function renderLog(){
   var box=document.getElementById("logList");
   if(!state.logs.length){
@@ -510,6 +563,8 @@ function renderLog(){
       '</div></div>';
   }).join("");
 }
+
+/* ===== 我的 ===== */
 function renderMe(){
   document.getElementById("meTotal").textContent=state.totalMin;
   document.getElementById("meStreak").textContent=state.streak;
@@ -535,6 +590,8 @@ document.getElementById("resetBtn").addEventListener("click", function(){
   }
 });
 document.getElementById("openAbout").addEventListener("click", function(){ show("about"); });
+
+/* ===== 音频 · Web Audio 合成 ===== */
 function ensureAudio(){ if(!audioCtx){ audioCtx=new (window.AudioContext||window.webkitAudioContext)(); } if(audioCtx.state==="suspended"){ audioCtx.resume(); } }
 function startMusic(id){
   ensureAudio();
@@ -554,6 +611,11 @@ function stopMusic(){
   document.getElementById("eq").style.display="none";
 }
 function resumeMusic(){ if(audioNodes && audioNodes.resume){ audioNodes.resume(); } }
+function previewMusic(id){
+  if(id==="silent"){ stopMusic(); return; }
+  ensureAudio();
+  startMusic(id);
+}
 function noiseBuffer(ctx, sec){
   var len=ctx.sampleRate*sec, buf=ctx.createBuffer(1,len,ctx.sampleRate), data=buf.getChannelData(0);
   for(var i=0;i<len;i++) data[i]=Math.random()*2-1;
@@ -592,7 +654,7 @@ function startBreath(ctx,master){
     var t=ctx.currentTime;
     var osc=ctx.createOscillator(); osc.type="sine"; osc.frequency.value=528;
     var g=ctx.createGain(); g.gain.setValueAtTime(0.0001,t);
-    if(!inh){ g.gain.exponentialRampToValueAtTime(0.001,t+0.05); }
+    if(!inh){ g.gain.exponentialRampToValueAtTime(0.001,t+0.05); } // 吸气轻起
     var dur=inh? 1.6 : 4.2;
     g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
     osc.connect(g).connect(master); osc.start(t); osc.stop(t+dur+0.1);
@@ -604,6 +666,8 @@ function startBreath(ctx,master){
   audioNodes.resume=function(){ if(ctx.state==="suspended") ctx.resume(); };
   document.getElementById("eq").style.display="flex";
 }
+
+/* ===== toast ===== */
 var toastTimer=null;
 function toast(msg){
   var t=document.getElementById("toast");
@@ -611,13 +675,17 @@ function toast(msg){
   if(toastTimer) clearTimeout(toastTimer);
   toastTimer=setTimeout(function(){ t.classList.remove("show"); }, 2200);
 }
+
+/* ===== 启动 ===== */
 loadState();
 (function boot(){
   var today=todayStr();
   if(state.lastActive && state.lastActive!==today){
+    // 跨天：连续天数 +1（昨天站了）或清零
     if(daysBetween(state.lastActive, today)<=1) state.streak++;
     else state.streak=0;
     state.lastActive=today;
+    // 新的每一天，站前/站后/已完成都重置
     state.todayDone=false; state.todayBefore=false; state.todayAfter=false;
     saveState();
   } else if(!state.lastActive){
